@@ -1,0 +1,13 @@
+<h2>Show Argument</h2>
+
+<ul>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @argument.type %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: argument_path(@conn, :edit, @argument) %></span>
+<span><%= link "Back", to: argument_path(@conn, :index) %></span>

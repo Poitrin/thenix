@@ -1,0 +1,5 @@
+<h2>New Argument</h2>
+
+<%= render "form.html", Map.put(assigns, :action, argument_path(@conn, :create)) %>
+
+<span><%= link "Back", to: argument_path(@conn, :index) %></span>

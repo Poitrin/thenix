@@ -1,0 +1,51 @@
+<%= link "← Back to claims", to: claim_path(@conn, :index), class: "uk-button uk-button-default uk-margin-right" %>
+<%= if (main_claim_id = Claims.get_main_claim_id(@claim.id)) do
+  link "← Back to main claim", to: claim_path(@conn, :show, main_claim_id), class: "uk-button uk-button-default"
+end %>
+
+<div class="uk-card uk-card-default uk-card-body uk-margin">
+  <span class="uk-card-title"><%= @claim.content %></span>
+</div>
+
+<div class="uk-grid-divider uk-child-width-expand@s" uk-grid>
+<%= for type <- [1, 2] do %>
+
+  <div>
+    <h2><%= Claim.type_name(type) %></h2>
+
+    <%= form_for @changeset, @action, fn f -> %>
+      <div class="uk-margin">
+        <%= hidden_input f, :source_claim_id %>
+        <%= hidden_input f, :type, value: type %>
+
+        <%= inputs_for f, :destination_claim, fn fp -> %>
+          <%= label fp, :content, class: "uk-form-label uk-hidden" %>
+          <%= textarea fp, :content, class: "uk-textarea", rows: 8, placeholder: "Your argument" %>
+          <%= error_tag fp, :content %>
+        <% end %>
+      </div>
+
+      <div class="uk-margin">
+        <%= submit "Submit", class: "uk-button uk-button-#{type_class(type)}" %>
+      </div>
+    <% end %>
+
+<%= for argument <- @claim.arguments |> Claim.filter_by_type(type) |> Enum.shuffle do %>
+    <div>
+      <div class="uk-card uk-card-<%= type_class(type) %> uk-card-body uk-card-hover uk-card-small uk-margin">
+        <button class="uk-button uk-button-small uk-button-default uk-float-right">Edit</button>
+        <a href="<%= claim_path(@conn, :show, argument.destination_claim) %>" class="uk-link-reset">
+          <%= text_to_html(argument.destination_claim.content, wrapper_tag: :span) %>
+        </a>
+      </div>
+    </div>
+<% end %>
+
+  </div>
+
+<% end %>
+</div>
+
+<!--
+<span><%= link "Edit", to: claim_path(@conn, :edit, @claim) %></span>
+-->
