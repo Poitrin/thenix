@@ -15,7 +15,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :thesis, ThesisWeb.Endpoint,
   load_from_system_env: true,
-  url: [host: "example.com", port: 80],
+  url: [host: System.get_env("HOST"), port: String.to_integer(System.get_env("PORT"))],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
