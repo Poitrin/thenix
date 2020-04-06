@@ -11,9 +11,6 @@ use Mix.Config
 config :thesis, ThesisWeb.Endpoint,
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
-config :app, AppWeb.Endpoint,
-  secret_key_base: secret_key_base
-
 # Configure your database
 config :thesis, Thesis.Repo,
   adapter: Ecto.Adapters.Postgres,
